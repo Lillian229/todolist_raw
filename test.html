@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <button id="btn1">讨厌1</button>
+
+  <!-- 注册0级事件方式二：在标签中 注册
+       标签中的 事件属性 本身就绑定了一个 默认的匿名函数了 -->
+  <!-- 在标签中的属性，执行作用域都是 window -->
+  <button id="btn2" onclick="showHate()">讨厌2</button>
+
+  <script>
+
+    (function () {
+      // 注册0级事件方式一：通过 dom属性 设置
+      document.querySelector('#btn1').onclick = showLove
+
+      function showLove() {
+        console.log(this)
+        // window.showHate()
+      }
+
+      function showHate() {
+        console.log('你是个好人，只是我配不上你')
+      }
+
+    })()
+
+  </script>
+</body>
+
+</html>
