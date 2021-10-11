@@ -98,7 +98,7 @@ $(function () {
         let newTask = {
             id: data.length === 0 ? 1 : data[data.length - 1].id + 1,
             title: this.value.trim(),
-            done: falses
+            done: false
         }
 
 
