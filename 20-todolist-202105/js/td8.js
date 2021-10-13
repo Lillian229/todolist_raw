@@ -1,4 +1,5 @@
-const key = 'he_1.6'
+const key = 'he_v1.8'
+
 function readData() {
     let data = window.localStorage.getItem(key)
     data = JSON.parse(data)
@@ -8,16 +9,18 @@ function readData() {
 
 function saveData(data) {
     data = JSON.stringify(data)
-    localStorage.setItem(key,data)
+    localStorage.setItem(key ,data)
+
 }
 
-$(function () {
+$(function() {
     let $todo = $('#todolist')
     let $done = $('#donelist')
     let $todoNum = $('#todocount')
     let $doneNum = $('#donecount')
-    let $title = $('#title')
+    let  $title = $('#title')
     let data = readData()
+
 
     load()
 
@@ -33,7 +36,7 @@ $(function () {
                     <input type="checkbox" data-id="${task.id}">
                     <p>${task.title}</p>
                     <a href="javascript:;" data-id="${task.id}"></a>
-                </li>`)
+                    </li>`)
         if(task.done) {
             $li.children('input').prop('checked',true)
             $done.prepend($li)
@@ -47,20 +50,19 @@ $(function () {
         if(this.checked) $done.prepend($li)
         else $todo.prepend($li)
 
-        let target = data.find(e => e.id == this.dataset.id)
+        let target  = data.find(e => e.id == this.dataset.id)
         target && (target.done = !target.done)
         saveData(data)
         count()
     })
 
-    $('#title').on('keyup',function (e) {
+    $('#title').on('keyup',function(e) {
         if(e.key != 'Enter') return 
         let newTask = {
-            id : data.length === 0 ? 1 : data[data.length-1].id + 1,
-            title:this.value.trim(),
+            id: data.length === 0 ? 1 :data[data.length - 1].id +1 ,
+            title :this.value.trim(),
             done:false
         }
-
         addTask(newTask)
 
         data.push(newTask)
@@ -69,22 +71,19 @@ $(function () {
         count()
 
         $title.val('')
+    })
 
-        })
+    $('#todolist,#donelist').on('click','li>a',function() {
+        let $li = $(this).parent()
+        $li.remove()
 
-
-        $('#todolist,#donelist').on('click','li>a',function() {
-            let $li = $(this).parent()
-            $li.remove()
-
-            let i = data.findIndex(e => e.id == this.dataset.id)
-            i > -1 && data.splice(i,1)
-            saveData(data)
-            count()
-        })
-        
-        function count() {
-            $todoNum.text(data.filter(e =>!e.done).length)
-            $doneNum.text(data.filter(e => e.done).length)
-        }
+        let i = data.findIndex(e => e.id == this.dataset.id)
+        i > -1 && data.splice(i,1)
+        saveData(data)
+        count()
+    })
+    function count() {
+        $todoNum.text(data.filter(e => !e.done).length)
+        $doneNum.text(data.filter(e => e.done).length)
+    }
 })

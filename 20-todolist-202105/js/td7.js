@@ -1,4 +1,4 @@
-const key = 'he_1.6'
+const key = 'he_1.7'
 function readData() {
     let data = window.localStorage.getItem(key)
     data = JSON.parse(data)
@@ -29,11 +29,11 @@ $(function () {
     }
 
     function addTask(task) {
-        let $li = $(`<li>
+        let $li =  $(`<li>
                     <input type="checkbox" data-id="${task.id}">
                     <p>${task.title}</p>
                     <a href="javascript:;" data-id="${task.id}"></a>
-                </li>`)
+                    </li>`)
         if(task.done) {
             $li.children('input').prop('checked',true)
             $done.prepend($li)
@@ -42,7 +42,7 @@ $(function () {
         }
     }
 
-    $('#todolist,#donelist').on('change','li>input[type=checkbox]',function() {
+    $('#todolist,#donelist').on('change','li>input[type = checkbox]',function () {
         let $li = $(this).parent()
         if(this.checked) $done.prepend($li)
         else $todo.prepend($li)
@@ -54,9 +54,9 @@ $(function () {
     })
 
     $('#title').on('keyup',function (e) {
-        if(e.key != 'Enter') return 
+        if(e.key != 'Enter') return
         let newTask = {
-            id : data.length === 0 ? 1 : data[data.length-1].id + 1,
+            id: data.length === 0 ? 1: data[data.length - 1].id + 1,
             title:this.value.trim(),
             done:false
         }
@@ -67,11 +67,9 @@ $(function () {
         saveData(data)
 
         count()
-
+        
         $title.val('')
-
         })
-
 
         $('#todolist,#donelist').on('click','li>a',function() {
             let $li = $(this).parent()
@@ -80,11 +78,12 @@ $(function () {
             let i = data.findIndex(e => e.id == this.dataset.id)
             i > -1 && data.splice(i,1)
             saveData(data)
-            count()
+           
         })
-        
+
         function count() {
-            $todoNum.text(data.filter(e =>!e.done).length)
+            $todoNum.text(data.filter(e => !e.done).length)
             $doneNum.text(data.filter(e => e.done).length)
         }
+    
 })
